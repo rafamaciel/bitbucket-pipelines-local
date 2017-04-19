@@ -1,0 +1,5 @@
+require "bitbucket_pipelines_local"
+require "bitbucket_pipelines_local/version"
+require "bitbucket_pipelines_local/validations"
+require "bitbucket_pipelines_local/config"
+require "bitbucket_pipelines_local/docker"

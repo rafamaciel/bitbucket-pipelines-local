@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+lib = File.expand_path('../../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+require 'bitbucket_pipelines_local/all'
+require 'rubygems'
+#require '../lib/bitbucket_pipelines_local/all'
+
+require 'commander/import'
+require 'yaml'
+require 'tty-spinner'
+require 'git'
+
+
+default_command :run
+
+program :name, 'Bitbucket Pipelines Local'
+program :version, BitbucketPipelinesLocal::VERSION
+program :description, 'A bitbucket pipelines simulator'
+command :run do |c|
+ c.syntax = 'bpl run [options]'
+ c.description = "Run bitbucket pipelines"
+ c.option '--branch STRING', String, 'Branch to test'
+ c.option '--config STRING', String, 'Bitbucket pipeline configuration file'
+ c.option '--trace STRING', String, 'Show outputs'
+ c.action do |args, options|
+   BitbucketPipelinesLocal.run(options.config)
+   options.default :prefix => '(', :suffix => ')'
+   say "#{options.prefix}bar#{options.suffix}"
+ end
+end

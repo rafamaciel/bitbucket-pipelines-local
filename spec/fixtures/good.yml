@@ -1,0 +1,18 @@
+pipelines:
+  branches:
+    master:
+      - step:
+          image: redis
+          script:
+            - redis-cli -h localhost ping
+          services:
+            - redis
+            - database
+definitions:
+  services:
+    redis:
+      image: redis
+    database:
+      image: mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: password
