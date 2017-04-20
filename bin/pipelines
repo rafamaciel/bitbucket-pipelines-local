@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+lib = File.expand_path('../../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+require 'bitbucket_pipelines_local/all'
+require 'rubygems'
+
+require 'commander/import'
+
+default_command :run
+
+program :name, 'Bitbucket Pipelines Local'
+program :version, BitbucketPipelinesLocal::VERSION
+program :description, 'A bitbucket pipelines simulator'
+
+global_option('--verbose', 'Load config data for your commands to use') { $verbose = false }
+
+
+command :run do |c|
+ c.syntax = 'bpl run [options]'
+ c.description = "Run bitbucket pipelines"
+ c.option '--config STRING',   String, 'Bitbucket pipeline configuration file (default: bitbucket-pipelines.yml)'
+ c.option '--envfile STRING', String, 'Dot env file (default: test.env)'
+
+ c.action do |args, options|
+   puts options.verbose
+   BitbucketPipelinesLocal.run(options.config, options.envfile, options.verbose)
+ end
+
+end
